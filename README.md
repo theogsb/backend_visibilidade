@@ -64,7 +64,7 @@ POST http://localhost:3000/generate-text
 {
     "success": true,
     "message": "Resposta Gerada com Sucesso",
-    "text": "Texto gerado pela IA"
+    "data": "Texto gerado pela IA"
 }
 ```
 
@@ -73,7 +73,7 @@ POST http://localhost:3000/generate-text
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor."
+    "message": "Mensagem de Erro"
 }
 ```
 
