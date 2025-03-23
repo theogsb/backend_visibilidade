@@ -17,10 +17,7 @@ export class TextGeneratorController {
       const { prompt } = req.body;
 
       if (!prompt) {
-        return res.status(400).json({
-          success: false,
-          message: "Campo 'prompt' é obrigatório",
-        });
+        throw new Error("Campo 'prompt' é obrigatório");
       }
         
       const result = await this.service.generateText(prompt); 
@@ -30,6 +27,7 @@ export class TextGeneratorController {
         message: "Resposta gerada com sucesso!",
         data: result
       });
+      
     } catch (error) {
         handleError(res, error);
     }
