@@ -85,7 +85,7 @@ POST http://localhost:3000/generate-text
 **Endpoint:**
 
 ```
-POST http://localhost:3000/apigov
+POST http://localhost:3000/usergov
 ```
 
 **Body da Requisição:**
@@ -149,7 +149,7 @@ POST http://localhost:3000/apigov
 			]
 		},
 
-        "_id": "userID"
+        "_id": "userId"
 	},
 	"schedule": {
 		"userId": "userID",
@@ -169,12 +169,12 @@ POST http://localhost:3000/apigov
 ```
 
 
-#### GET - Criar Usuário Gov e Cronograma
+#### GET - Receber Usuário Gov
 
 **Endpoint:**
 
 ```
-GET http://localhost:3000/apigov/:_id Usuário
+GET http://localhost:3000/usergov/:_id Usuário
 ```
 
 **Resposta de Sucesso:**
@@ -248,12 +248,12 @@ GET http://localhost:3000/apigov/:_id Usuário
 }
 ```
 
-#### POST - Criar Usuário Gov e Cronograma
+#### PATCH - Atualizar Usuário Gov 
 
 **Endpoint:**
 
 ```
-Patch http://localhost:3000/apigov/:_id Usuário
+Patch http://localhost:3000/usergov/:_id Usuário
 ```
 
 **Body da Requisição:**
@@ -373,7 +373,7 @@ GET http://localhost:3000/schedule/:userId
 **Endpoint:**
 
 ```
-GET http://localhost:3000/schedule/:userId/posts/:postsId
+GET http://localhost:3000/schedule/:userId/posts/:postId
 ```
 
 **Resposta de Sucesso:**
@@ -435,7 +435,8 @@ POST http://localhost:3000/schedule/:userId/posts
         "postDate": "dd-mm-aa",
         "postTime": "HH:mm",
         "imagePath": "arquivo JPEG ou PNG",
-        "imageUrl": "Imagem Url"
+        "imageUrl": "Imagem Url",
+	"_id" : "id"
     }
 }
 ```
@@ -480,7 +481,8 @@ PATCH http://localhost:3000/schedule/:userId/posts/:postId
         "postDate": "dd-mm-aa",
         "postTime": "HH:mm",
         "imagePath": "arquivo JPEG ou PNG",
-        "imageUrl": "Url da imagem"
+        "imageUrl": "Url da imagem",
+	"_id" : "id"
     }
 }
 ```
