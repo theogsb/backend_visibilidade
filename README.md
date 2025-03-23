@@ -11,7 +11,6 @@ Por estarmos em processo de desenvolvimento, o servidor roda localmente. Portant
 ## 🛠️ Requisitos Básicos
 
 - Docker Desktop
-- Conta Dockerhub
 - Conta MongoDB
 - Conta Gemini
 
