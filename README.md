@@ -383,6 +383,7 @@ GET http://localhost:3000/schedule/:userId/posts/:postId
     "message": "Postagem Enviada com sucesso!",
     "data": {
       "platform": "Plataforma para a postagem",
+	  "postTitle": "Título da postagem",
       "postText": "Texto para a imagem",
       "postDate": "mm-dd-aa",
       "postTime": "HH:mm",
@@ -430,6 +431,7 @@ POST http://localhost:3000/schedule/:userId/posts
     "message": "Postagem criada com sucesso!",
     "data": {
         "platform": "Plataforma para a postagem",
+		"postTitle": "Título da postagem",
         "postText": "Texto para a imagem",
         "postDate": "dd-mm-aa",
         "postTime": "HH:mm",
@@ -476,6 +478,7 @@ PATCH http://localhost:3000/schedule/:userId/posts/:postId
     "message": "Postagem Atualizada com sucesso!",
     "data": {
         "platform": "Plataforma para a postagem",
+		"postTitle": "Título da postagem",
         "postText": "Texto para a imagem",
         "postDate": "dd-mm-aa",
         "postTime": "HH:mm",
