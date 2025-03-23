@@ -1,17 +1,26 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
-import govRoutes from "../routes/govRoutes.js";
-import postsRoutes from '../routes/postsRoutes.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import userRoutes from "../routes/userRoutes.js";
+import scheduleRoutes from '../routes/scheduleRoutes.js';
 import templateRoutes from "../routes/templateRoutes.js";
 import textGeneratorRoutes from "../routes/textGeneratorRoutes.js";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(govRoutes);
-app.use(postsRoutes);
+app.use('/uploads/usersTemplates', express.static(path.join(__dirname, '../../uploads/usersTemplates')));
+app.use('/uploads/publicTemplates', express.static(path.join(__dirname, '../../uploads/publicTemplates')));
+
+app.use(userRoutes);
+app.use(scheduleRoutes);
 app.use(templateRoutes);
 app.use(textGeneratorRoutes);
 

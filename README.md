@@ -39,7 +39,6 @@ docker compose up
 - MongoDB Url
 - Gemini API KEY
 
-
 ## 🛠️ Métodos da API
 
 ### 🤖 AI Text Generator
@@ -75,12 +74,11 @@ POST http://localhost:3000/generate-text
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor.",
-    "error": "Mensagem de erro"
+    "message": "Erro interno no servidor."
 }
 ```
 
-### 🌍 API da Prefeitura
+### 🌍 Usuário
 
 #### POST - Criar Usuário Gov e Cronograma
 
@@ -149,11 +147,12 @@ POST http://localhost:3000/apigov
 					"logo_url": "https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTE1LCJwdXIiOiJibG9iX2lkIn19--43ac2219208e93e544e0edd46c2dc58e78e9e098/ods-09.png"
 				}
 			]
-		}
+		},
+
+        "_id": "userID"
 	},
 	"schedule": {
-		"_id": "id",
-		"userId": "ID usuário",
+		"userId": "userID",
 		"posts": [],
 		"__v": 0
 	}
@@ -165,10 +164,180 @@ POST http://localhost:3000/apigov
 ```json
 {
     "success": false,
-    "message": "Erro ao criar usuário!",
-    "error": "Mensagem de erro"
+    "message": "Mensagem de Erro",
 }
 ```
+
+
+#### GET - Criar Usuário Gov e Cronograma
+
+**Endpoint:**
+
+```
+GET http://localhost:3000/apigov/:_id Usuário
+```
+
+**Resposta de Sucesso:**
+
+```json
+{
+	"sucess": true,
+	"message": "Usuário Criado com sucesso",
+	"data": {
+		"message": "Login bem-sucedido",
+		"user": {
+			"name": "api teste2",
+			"email": "apiteste2@rdmapps.com.br"
+		},
+		"ngo": {
+			"id": 21,
+			"name": "ONG TESTE 01 - NÃO APAGAR",
+			"description": "Dolor laborum dolore proident aute quis sint labore laborum labore occaecat sunt labore irure esse ea. Pariatur cupidatat ut enim cillu",
+			"is_formalized": true,
+			"start_year": 2018,
+			"contact_phone": "8199999999",
+			"instagram_link": "www.instagram.com.br",
+			"x_link": "www.x.com",
+			"facebook_link": "www.facebook.com.br",
+			"pix_qr_code_link": "wwlkadaodkaodaodaoda",
+			"site": null,
+			"gallery_images_url": [
+				"https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTAyLCJwdXIiOiJibG9iX2lkIn19--37fe9618b09fec89d7147328312bd0625bc2fae5/290-190x112.jpg",
+				"https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTAzLCJwdXIiOiJibG9iX2lkIn19--2cbc68ee78e2325c206dda14aeb181a7fb584451/661-255x204.jpg",
+				"https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTA0LCJwdXIiOiJibG9iX2lkIn19--083e0dbb3f9bf68811506a5bb44a5270740a9003/446-190x112.jpg"
+			],
+			"skills": [
+				{
+					"id": 1,
+					"name": "Artes"
+				}
+			],
+			"causes": [
+				{
+					"id": 2,
+					"name": "Advocacy- Políticas Públicas",
+					"description": ""
+				}
+			],
+			"sustainable_development_goals": [
+				{
+					"id": 9,
+					"name": "Indústria, inovação e infraestrutura",
+					"url_ods": "https://brasil.un.org/pt-br/sdgs/9",
+					"logo_url": "https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTE1LCJwdXIiOiJibG9iX2lkIn19--43ac2219208e93e544e0edd46c2dc58e78e9e098/ods-09.png"
+				}
+			]
+		},
+
+        "_id": "userID"
+	},
+	"schedule": {
+		"userId": "userID",
+		"posts": [],
+		"__v": 0
+	}
+}
+```
+
+**Resposta de Erro:**
+
+```json
+{
+    "success": false,
+    "message": "Mensagem de Erro"
+}
+```
+
+#### POST - Criar Usuário Gov e Cronograma
+
+**Endpoint:**
+
+```
+Patch http://localhost:3000/apigov/:_id Usuário
+```
+
+**Body da Requisição:**
+
+```json
+{
+    "ngo ou user" : {
+        "Atributo a ser atualizado" : "Novo Valor"
+    }
+}
+```
+
+**Resposta de Sucesso:**
+
+```json
+{
+	"sucess": true,
+	"message": "Usuário Criado com sucesso",
+	"data": {
+		"message": "Login bem-sucedido",
+		"user": {
+			"name": "api teste2",
+			"email": "apiteste2@rdmapps.com.br"
+		},
+		"ngo": {
+			"id": 21,
+			"name": "ONG TESTE 01 - NÃO APAGAR",
+			"description": "Dolor laborum dolore proident aute quis sint labore laborum labore occaecat sunt labore irure esse ea. Pariatur cupidatat ut enim cillu",
+			"is_formalized": true,
+			"start_year": 2018,
+			"contact_phone": "8199999999",
+			"instagram_link": "www.instagram.com.br",
+			"x_link": "www.x.com",
+			"facebook_link": "www.facebook.com.br",
+			"pix_qr_code_link": "wwlkadaodkaodaodaoda",
+			"site": null,
+			"gallery_images_url": [
+				"https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTAyLCJwdXIiOiJibG9iX2lkIn19--37fe9618b09fec89d7147328312bd0625bc2fae5/290-190x112.jpg",
+				"https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTAzLCJwdXIiOiJibG9iX2lkIn19--2cbc68ee78e2325c206dda14aeb181a7fb584451/661-255x204.jpg",
+				"https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTA0LCJwdXIiOiJibG9iX2lkIn19--083e0dbb3f9bf68811506a5bb44a5270740a9003/446-190x112.jpg"
+			],
+			"skills": [
+				{
+					"id": 1,
+					"name": "Artes"
+				}
+			],
+			"causes": [
+				{
+					"id": 2,
+					"name": "Advocacy- Políticas Públicas",
+					"description": ""
+				}
+			],
+			"sustainable_development_goals": [
+				{
+					"id": 9,
+					"name": "Indústria, inovação e infraestrutura",
+					"url_ods": "https://brasil.un.org/pt-br/sdgs/9",
+					"logo_url": "https://bora-impactar-prd.setd.rdmapps.com.br/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTE1LCJwdXIiOiJibG9iX2lkIn19--43ac2219208e93e544e0edd46c2dc58e78e9e098/ods-09.png"
+				}
+			]
+		},
+
+        "_id": "userId"
+	},
+	"schedule": {
+		"userId": "userId",
+		"posts": [],
+		"__v": 0
+	}
+}
+```
+
+**Resposta de Erro:**
+
+```json
+{
+    "success": false,
+    "message": "Mensagem de Erro",
+}
+```
+
+
 
 ### 🗓 Cronograma
 
@@ -195,8 +364,7 @@ GET http://localhost:3000/schedule/:userId
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Cronograma não encontrado!"
+    "message": "Mensagem de Erro"
 }
 ```
 
@@ -220,6 +388,7 @@ GET http://localhost:3000/schedule/:userId/posts/:postsId
       "postDate": "mm-dd-aa",
       "postTime": "HH:mm",
       "imagePath": "arquivo JPEG ou PNG",
+      "imageUrl": "Url da imagem",
       "_id" : "id"
       }
 }
@@ -230,8 +399,7 @@ GET http://localhost:3000/schedule/:userId/posts/:postsId
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Postagem não encontrada!"
+    "message": "Mensagem de Erro"
 }
 ```
 
@@ -262,8 +430,12 @@ POST http://localhost:3000/schedule/:userId/posts
     "success": true,
     "message": "Postagem criada com sucesso!",
     "data": {
-        "userId": "ID usuário",
-        "posts": []
+        "platform": "Plataforma para a postagem",
+        "postText": "Texto para a imagem",
+        "postDate": "dd-mm-aa",
+        "postTime": "HH:mm",
+        "imagePath": "arquivo JPEG ou PNG",
+        "imageUrl": "Imagem Url"
     }
 }
 ```
@@ -273,8 +445,7 @@ POST http://localhost:3000/schedule/:userId/posts
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de erro!"
+    "message": "Mensagem de Erro"
 }
 ```
 
@@ -304,8 +475,12 @@ PATCH http://localhost:3000/schedule/:userId/posts/:postId
     "success": true,
     "message": "Postagem Atualizada com sucesso!",
     "data": {
-        "userId": "ID usuário",
-        "posts": []
+        "platform": "Plataforma para a postagem",
+        "postText": "Texto para a imagem",
+        "postDate": "dd-mm-aa",
+        "postTime": "HH:mm",
+        "imagePath": "arquivo JPEG ou PNG",
+        "imageUrl": "Url da imagem"
     }
 }
 ```
@@ -315,8 +490,7 @@ PATCH http://localhost:3000/schedule/:userId/posts/:postId
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de erro!"
+    "message": "Mensagem de Erro"
 }
 ```
 
@@ -333,12 +507,7 @@ DELETE http://localhost:3000/schedule/:userId/posts/:postId
 ```json
 {
     "success": true,
-    "message": "Postagem Excluída com sucesso!",
-    "data": {
-        "id": "id",
-        "userId": "ID usuário",
-        "posts": []
-    }
+    "message": "Postagem Excluída com sucesso!"
 }
 ```
 
@@ -347,8 +516,7 @@ DELETE http://localhost:3000/schedule/:userId/posts/:postId
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de erro!"
+    "message": "Mensagem de Erro"
 }
 ```
 
@@ -359,7 +527,7 @@ DELETE http://localhost:3000/schedule/:userId/posts/:postId
 **Endpoint:**
 
 ```
-GET http://localhost:3000/template/
+GET http://localhost:3000/template
 ```
 
 **Resposta de Sucesso:**
@@ -370,8 +538,9 @@ GET http://localhost:3000/template/
     "message": "Templates Enviados com sucesso!",
     "data": [
       {
-        "_id" : "id",
-        "imagePath" : "Caminho Imagem"
+        "imagePath" : "Caminho Imagem",
+        "imageUrl": "Url da imagem",
+        "_id" : "id"
       }
     ]
 }
@@ -382,8 +551,7 @@ GET http://localhost:3000/template/
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de Erro!"
+    "message": "Mensagem de erro"
 }
 ```
 
@@ -393,7 +561,7 @@ GET http://localhost:3000/template/
 **Endpoint:**
 
 ```
-POST http://localhost:3000/template/
+POST http://localhost:3000/template
 ```
 
 **Body da Requisição:**
@@ -412,8 +580,9 @@ POST http://localhost:3000/template/
     "message": "Template criado com sucesso!",
     "data": [
       {
-        "imagePath" : "Caminho Imagem"
-        "_id" : "id",
+        "imagePath" : "Caminho Imagem",
+        "imageUrl": "Url da imagem",
+        "_id" : "id"
       }
     ]
 }
@@ -424,8 +593,7 @@ POST http://localhost:3000/template/
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de erro"
+    "message": "Mensagem de erro"
 }
 ```
 
@@ -453,8 +621,9 @@ PATCH http://localhost:3000/template/:id
     "message": "Template atualizado com sucesso!",
     "data": [
       {
-        "_id" : "id",
-        "imagePath" : "Caminho Imagem"
+        "imagePath" : "Caminho Imagem",
+        "imageUrl": "Url da imagem",
+        "_id" : "id"
       }
     ]
 }
@@ -465,8 +634,7 @@ PATCH http://localhost:3000/template/:id
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de erro"
+    "message": "Mensagem de erro"
 }
 ```
 
@@ -484,12 +652,6 @@ DELETE http://localhost:3000/template/:id
 {
     "success": true,
     "message": "Template excluído com sucesso!",
-    "data": [
-      {
-        "_id" : "id",
-        "imagePath" : "Caminho Imagem"
-      }
-    ]
 }
 ```
 
@@ -498,8 +660,7 @@ DELETE http://localhost:3000/template/:id
 ```json
 {
     "success": false,
-    "message": "Erro interno no servidor",
-    "error": "Mensagem de erro"
+    "message": "Mensagem de erro"
 }
 ```
 

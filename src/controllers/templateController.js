@@ -1,135 +1,121 @@
-import { TemplateModel } from "../models/userModel.js";
+import { TemplateService } from "../services/templateService.js";
 import fs from "fs";
 
+const handleError = (res, error) => {
+  res.status(500).json({
+    success: false,
+    message: error.message
+  });
+};
+
 export class TemplateController {
-  async getAllTemplates(req, res) {
+
+  constructor() {
+      this.service = new TemplateService();
+    }
+
+  async getTemplates(req, res) {
     try {
-      const templates = await TemplateModel.find();
+      const templates = await this.service.getTemplates();
+
       res.status(200).json({
         success: true,
+        message: 'Templates enviados com Sucesso',
         data: templates
       });
+
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Erro ao buscar templates",
-        error: error.message
-      });
+      handleError(res, error);
     }
   }
 
-  async getTemplateById(req, res) {
+  async getTemplate(req, res) {
     try {
-      const template = await TemplateModel.findById(req.params.id);
-      
-      if (!template) {
-        return res.status(404).json({
-          success: false,
-          message: "Template não encontrado."
-        });
-      }
+      const template = await this.service.getTemplate(req.params.templateId);
+
 
       res.status(200).json({
         success: true,
+        message: 'Template enviado com sucesso!',
         data: template
       });
+
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Erro ao buscar template",
-        error: error.message
-      });
+      handleError(res, error);
     }
   }
 
   async createTemplate(req, res) {
     try {
       if (!req.file) {
-        return res.status(400).json({
-          success: false,
-          message: "Nenhuma imagem foi enviada."
-        });
+        throw new Error('Template não encontrado!');
       }
+      const file = req.file;
+      const filePath = file.path;
 
-      const template = new TemplateModel({
-        imagePath: req.file.path,
-        isTest: req.body.isTest
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/publicTemplates/${file.filename}`;
+
+      const template = await this.service.createTemplate({
+        imagePath: filePath , 
+        imageUrl: imageUrl
       });
-
-      await template.save();
 
       res.status(201).json({
         success: true,
+        message: 'Template criado com sucesso!',
         data: template
       });
+
     } catch (error) {
-      if (req.file) {
-        fs.unlinkSync(req.file.path);
-      }
-      
-      res.status(500).json({
-        success: false,
-        message: "Erro ao criar template",
-        error: error.message
-      });
+        if (req.file) {
+          fs.unlinkSync(req.file.path);
+        }
+        
+        handleError(res, error);
     }
   }
 
   async updateTemplate(req, res) {
     try {
-      const template = await TemplateModel.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-      );
-
-      if (!template) {
-        return res.status(404).json({
-          success: false,
-          message: "Template não encontrado."
-        });
+      if(!req.file) {
+        throw new Error('Template não encontrado!');
       }
+      const file = req.file;
+      const filePath = file.path;
+      const templateId = req.params.templateId;
+      
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/publicTemplates/${file.filename}`;
+
+      const template = await this.service.updateTemplate(templateId, {
+        imagePath: filePath , 
+        imageUrl: imageUrl
+      })
 
       res.status(200).json({
         success: true,
+        message: 'Template atualizado com sucesso!',
         data: template
       });
+
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Erro ao atualizar template",
-        error: error.message
-      });
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
+      handleError(res, error);
     }
   }
 
   async deleteTemplate(req, res) {
     try {
-      const template = await TemplateModel.findById(req.params.id);
-
-      if (!template) {
-        return res.status(404).json({
-          success: false,
-          message: "Template não encontrado."
-        });
-      }
-
-      if (template.imagePath && fs.existsSync(template.imagePath)) {
-        fs.unlinkSync(template.imagePath);
-      }
-
-      await template.deleteOne();
+      const template = await this.service.deleteTemplate(req.params.templateId);
 
       res.status(200).json({
         success: true,
-        message: "Template excluído com sucesso!"
+        message: "Template excluído com sucesso!",
       });
+
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Erro ao excluir template",
-        error: error.message
-      });
+      handleError(res, error);
     }
   }
 } 

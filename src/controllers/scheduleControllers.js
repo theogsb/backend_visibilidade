@@ -1,29 +1,30 @@
-import { PostService } from '../services/postService.js';
+import { ScheduleService } from '../services/scheduleService.js';
 import fs from 'fs';
 
 const handleError = (res, error) => {
-  const statusCode = error.statusCode || 500;
-  res.status(statusCode).json({
+  res.status(500).json({
     success: false,
-    message: error.message || "Erro interno no servidor.",
-    error: error.message,
+    message: error.message
   });
 };
 
-export class PostController {
+export class ScheduleController {
+  
   constructor() {
-    this.service = new PostService();
+    this.service = new ScheduleService();
   }
+
 
   async getSchedule(req, res) {
     try {
-      const { userId } = req.params;
-      const schedule = await this.service.getSchedule(userId);
+      const { UserId } = req.params;
+      const schedule = await this.service.getSchedule(UserId);
+      const { userId , posts } = schedule;
 
       return res.status(200).json({
         success: true,
-        message: "Cronograma encontrado com sucesso!",
-        data: schedule,
+        message: "Cronograma enviado com sucesso!",
+        data: {userId, posts},
       });
     } catch (error) {
       handleError(res, error);
@@ -37,7 +38,7 @@ export class PostController {
 
       return res.status(200).json({
         success: true,
-        message: "Postagem encontrada com sucesso!",
+        message: "Postagem enviada com sucesso!",
         data: post,
       });
     } catch (error) {
@@ -45,27 +46,32 @@ export class PostController {
     }
   }
 
+
   async createPost(req, res) {
     try {
-      const { userId } = req.params;
+      const { UserId } = req.params;
       const postData = req.body;
       const file = req.file;
 
       if (!postData.platform || !postData.postDate || !postData.postTime) {
-        throw { statusCode: 400, message: "Campos obrigatórios incompletos" };
+        throw new Error("Campos obrigatórios incompletos");
       }
 
       if (!file) {
-        throw { statusCode: 400, message: "Nenhuma imagem foi enviada." };
+        throw new Error("Nenhuma imagem foi enviada.");
       }
 
-      const schedule = await this.service.createPost(userId, { ...postData, imagePath: file.path });
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/usersTemplates/${file.filename}`;
+
+      const schedule = await this.service.createPost(UserId, { ...postData, imageUrl: imageUrl , imagePath: file.path});
+      const { userId , posts } = schedule
 
       return res.status(201).json({
         success: true,
         message: "Postagem criada com sucesso!",
-        data: schedule,
+        data: posts,
       });
+      
     } catch (error) {
       if (req.file) {
         fs.unlinkSync(req.file.path);
@@ -74,19 +80,24 @@ export class PostController {
     }
   }
 
+
   async updatePost(req, res) {
     try {
-      const { userId, postId } = req.params;
+      const { UserId, postId } = req.params;
       const updateData = req.body;
       const file = req.file;
 
-      const schedule = await this.service.updatePost(userId, postId, { ...updateData, imagePath: file?.path });
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/usersTemplates/${file.filename}`;
+
+      const schedule = await this.service.updatePost(UserId, postId, { ...updateData, imageUrl: imageUrl , imagePath: file.path});
+      const {userId , posts} = schedule;
 
       return res.status(200).json({
         success: true,
         message: "Postagem atualizada com sucesso!",
-        data: schedule,
+        data: posts
       });
+
     } catch (error) {
       if (req.file) {
         fs.unlinkSync(req.file.path);
@@ -95,6 +106,7 @@ export class PostController {
     }
   }
 
+  
   async deletePost(req, res) {
     try {
       const { userId, postId } = req.params;
@@ -103,7 +115,6 @@ export class PostController {
       return res.status(200).json({
         success: true,
         message: "Postagem excluída com sucesso!",
-        data: schedule,
       });
     } catch (error) {
       handleError(res, error);
