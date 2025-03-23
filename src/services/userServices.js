@@ -1,7 +1,23 @@
 import { UserModel, ScheduleModel } from "../models/models.js";
 
 export class UserService {
-
+  
+  async getUser(userId) {
+    try {
+      const user = UserModel.findById(userId);
+      
+      if(!user) {
+        throw new Error('Usuário não encontrado!');
+      }
+  
+      return user;
+  
+    }catch( error ) {
+      throw new Error(error.message);
+    }
+    
+  }
+  
   async createUser(userData) {
     try {
       const response = await fetch(
@@ -45,19 +61,35 @@ export class UserService {
     } 
   }
 
-  async getUser(userId) {
+  async updateUser(userId, updateData) {
     try {
-      const user = UserModel.findById(userId);
+      const transformedUpdateData = {};
       
-      if(!user) {
-        throw new Error('Usuário não encontrado!');
+      for (const key in updateData) {
+        if (typeof updateData[key] === 'object' && !Array.isArray(updateData[key])) {
+        
+          for (const nestedKey in updateData[key]) {
+          transformedUpdateData[`${key}.${nestedKey}`] = updateData[key][nestedKey];
+        }
+      } 
+      else {
+          transformedUpdateData[key] = updateData[key];
       }
+    }
+
+    const user = await UserModel.findByIdAndUpdate(
+      userId, 
+      { $set: transformedUpdateData }, 
+      {new: true}
+    );
+      if (!user) {
+            throw new Error('Usuário não encontrado!');
+        }
 
       return user;
 
-    }catch( error ) {
+    } catch( error ) {
       throw new Error(error.message);
     }
-    
   }
-} 
+}

@@ -1,5 +1,12 @@
 import { TextGeneratorService } from "../services/textGeneratorService.js";
 
+const handleError = (res, error) => {
+  res.status(500).json({
+    success: false,
+    message: error.message
+  });
+};
+
 export class TextGeneratorController {
   constructor() {
     this.service = new TextGeneratorService();
@@ -24,10 +31,7 @@ export class TextGeneratorController {
         data: result
       });
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message
-      });
+        handleError(res, error);
     }
   }
 }

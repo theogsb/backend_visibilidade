@@ -17,13 +17,14 @@ export class ScheduleController {
 
   async getSchedule(req, res) {
     try {
-      const { userId } = req.params;
-      const schedule = await this.service.getSchedule(userId);
+      const { UserId } = req.params;
+      const schedule = await this.service.getSchedule(UserId);
+      const { userId , posts } = schedule;
 
       return res.status(200).json({
         success: true,
         message: "Cronograma enviado com sucesso!",
-        data: schedule,
+        data: {userId, posts},
       });
     } catch (error) {
       handleError(res, error);
@@ -37,7 +38,7 @@ export class ScheduleController {
 
       return res.status(200).json({
         success: true,
-        message: "Postagem enviado com sucesso!",
+        message: "Postagem enviada com sucesso!",
         data: post,
       });
     } catch (error) {
@@ -48,7 +49,7 @@ export class ScheduleController {
 
   async createPost(req, res) {
     try {
-      const { userId } = req.params;
+      const { UserId } = req.params;
       const postData = req.body;
       const file = req.file;
 
@@ -60,12 +61,15 @@ export class ScheduleController {
         throw new Error("Nenhuma imagem foi enviada.");
       }
 
-      const schedule = await this.service.createPost(userId, { ...postData, imagePath: file.path });
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/usersTemplates/${file.filename}`;
+
+      const schedule = await this.service.createPost(UserId, { ...postData, imageUrl: imageUrl , imagePath: file.path});
+      const { userId , posts } = schedule
 
       return res.status(201).json({
         success: true,
         message: "Postagem criada com sucesso!",
-        data: schedule,
+        data: posts,
       });
       
     } catch (error) {
@@ -79,16 +83,19 @@ export class ScheduleController {
 
   async updatePost(req, res) {
     try {
-      const { userId, postId } = req.params;
+      const { UserId, postId } = req.params;
       const updateData = req.body;
       const file = req.file;
 
-      const schedule = await this.service.updatePost(userId, postId, { ...updateData, imagePath: file?.path });
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/usersTemplates/${file.filename}`;
+
+      const schedule = await this.service.updatePost(UserId, postId, { ...updateData, imageUrl: imageUrl , imagePath: file.path});
+      const {userId , posts} = schedule;
 
       return res.status(200).json({
         success: true,
         message: "Postagem atualizada com sucesso!",
-        data: schedule,
+        data: posts
       });
 
     } catch (error) {

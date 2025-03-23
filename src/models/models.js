@@ -78,6 +78,10 @@ const scheduleSchema = new mongoose.Schema({
         type: String,
         required: false,
       },
+      imageUrl: {
+        type: String,
+        required: false,
+      }
     },
   ],
 });
@@ -87,6 +91,10 @@ const templateSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  imageUrl: {  
+    type: String,
+    required: false,
+  }
 });
 
 

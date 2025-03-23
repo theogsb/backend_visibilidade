@@ -50,8 +50,15 @@ export class TemplateController {
       if (!req.file) {
         throw new Error('Template não encontrado!');
       }
+      const file = req.file;
+      const filePath = file.path;
 
-      const template = await this.service.createTemplate(req.file.path);
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/publicTemplates/${file.filename}`;
+
+      const template = await this.service.createTemplate({
+        imagePath: filePath , 
+        imageUrl: imageUrl
+      });
 
       res.status(201).json({
         success: true,
@@ -73,8 +80,16 @@ export class TemplateController {
       if(!req.file) {
         throw new Error('Template não encontrado!');
       }
+      const file = req.file;
+      const filePath = file.path;
+      const templateId = req.params.templateId;
       
-      const template = await this.service.updateTemplate(req.params.templateId, req.file.path)
+      const imageUrl = `http://localhost:${process.env.PORT}/uploads/publicTemplates/${file.filename}`;
+
+      const template = await this.service.updateTemplate(templateId, {
+        imagePath: filePath , 
+        imageUrl: imageUrl
+      })
 
       res.status(200).json({
         success: true,

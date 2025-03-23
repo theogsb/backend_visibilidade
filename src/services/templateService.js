@@ -29,11 +29,9 @@ export class TemplateService {
   };
 
 
-  async createTemplate(templatePath){
+  async createTemplate(templateData){
     try {
-      const template = new TemplateModel({
-        imagePath: templatePath
-      });
+      const template = new TemplateModel(templateData);
       await template.save();
 
       return template;
@@ -43,7 +41,7 @@ export class TemplateService {
     }
   };
 
-  updateTemplate = async (templateId, UpdateTemplatePath) => {
+  async updateTemplate(templateId, updateData) {
     try {
       const template = await TemplateModel.findById(templateId);
       if (!template) {
@@ -58,7 +56,8 @@ export class TemplateService {
         }
       }
 
-      template.imagePath = UpdateTemplatePath;
+      template.imagePath = updateData.imagePath;
+      template.imageUrl = updateData.imageUrl;
       await template.save();
 
       return template;
@@ -68,7 +67,7 @@ export class TemplateService {
     }
   };
 
-  deleteTemplate = async (templateId) => {
+  async deleteTemplate(templateId){
     try {
       const template = await TemplateModel.findById(templateId);
       
@@ -76,7 +75,7 @@ export class TemplateService {
         throw new Error("Template não encontrado!");
       }
 
-      if (template.imagePath) {
+      if(template.imagePath) {
         try {
             fs.unlinkSync(template.imagePath);
         } catch (error) {
