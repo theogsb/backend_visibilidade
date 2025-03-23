@@ -60,7 +60,11 @@ const scheduleSchema = new mongoose.Schema({
     {
       platform: {
         type: String,
-        required: true,
+        required: false,
+      },
+      postTitle: {
+        type: String,
+        required: false
       },
       postText: {
         type: String,
@@ -68,15 +72,15 @@ const scheduleSchema = new mongoose.Schema({
       },
       postDate: {
         type: Date,
-        required: true,
+        required: false,
       },
       postTime: {
         type: String,
-        required: true,
+        required: false,
       },
       imagePath: {
         type: String,
-        required: false,
+        required: true,
       },
       imageUrl: {
         type: String,
