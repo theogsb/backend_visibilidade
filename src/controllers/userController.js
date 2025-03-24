@@ -14,16 +14,16 @@ export class UserController {
 
   async createUser(req, res) {
     try {
-      const { newUser, newSchedule } = await this.service.createUser(req.body);
-      const { userId , posts } = newSchedule;
+      const { user, schedule } = await this.service.createUser(req.body);
+      const { userId , posts } = schedule;
 
       res.status(200).json({
         success: true,
-        message: "Usuário Criado com sucesso",
-        data: newUser,
+        message: "Usuário Validado com sucesso",
+        data: user,
         shedule: {userId , posts}
       });
-      
+
     } catch (error) {
         if (error.message === "Dados inválidos retornados pela API externa") {
           res.status(400).json({

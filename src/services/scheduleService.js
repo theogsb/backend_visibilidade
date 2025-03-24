@@ -3,9 +3,9 @@ import fs from 'fs';
 
 export class ScheduleService {
   
-  async getSchedule(UserId) {
+  async getSchedule(userId) {
     try {
-      const schedule = await ScheduleModel.findOne({ UserId });
+      const schedule = await ScheduleModel.findOne({ userId });
       if (!schedule) {
         throw new Error('Cronograma não encontrado!');
       }
@@ -37,9 +37,9 @@ export class ScheduleService {
     
   }
 
-  async createPost(UserId, postData) {
+  async createPost(userId, postData) {
     try {
-      const schedule = await ScheduleModel.findOne({ UserId });
+      const schedule = await ScheduleModel.findOne({ userId });
       
       if (!schedule) {
         throw new Error('Cronograma não encontrado!');
@@ -55,9 +55,9 @@ export class ScheduleService {
     }
   }
 
-  async updatePost(UserId, postId, updateData) {
+  async updatePost(userId, postId, updateData) {
     try {
-      const schedule = await ScheduleModel.findOne({ UserId });
+      const schedule = await ScheduleModel.findOne({ userId });
       if (!schedule) {
         throw new Error('Cronograma não encontrado!');
       }

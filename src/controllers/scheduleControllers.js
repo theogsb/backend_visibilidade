@@ -17,9 +17,9 @@ export class ScheduleController {
 
   async getSchedule(req, res) {
     try {
-      const { UserId } = req.params;
-      const schedule = await this.service.getSchedule(UserId);
-      const { userId , posts } = schedule;
+      const { userId } = req.params;
+      const schedule = await this.service.getSchedule(userId);
+      const { posts } = schedule;
 
       return res.status(200).json({
         success: true,
@@ -49,7 +49,7 @@ export class ScheduleController {
 
   async createPost(req, res) {
     try {
-      const { UserId } = req.params;
+      const { userId } = req.params;
       const postData = req.body;
       const file = req.file;
 
@@ -63,13 +63,12 @@ export class ScheduleController {
 
       const imageUrl = `http://localhost:${process.env.PORT}/uploads/usersTemplates/${file.filename}`;
 
-      const schedule = await this.service.createPost(UserId, { ...postData, imageUrl: imageUrl , imagePath: file.path});
-      const { userId , posts } = schedule
+      const schedule = await this.service.createPost(userId, { ...postData, imageUrl: imageUrl , imagePath: file.path});
 
       return res.status(201).json({
         success: true,
         message: "Postagem criada com sucesso!",
-        data: posts,
+        data: schedule.posts,
       });
       
     } catch (error) {
@@ -83,19 +82,18 @@ export class ScheduleController {
 
   async updatePost(req, res) {
     try {
-      const { UserId, postId } = req.params;
+      const { userId, postId } = req.params;
       const updateData = req.body;
       const file = req.file;
 
       const imageUrl = `http://localhost:${process.env.PORT}/uploads/usersTemplates/${file.filename}`;
 
-      const schedule = await this.service.updatePost(UserId, postId, { ...updateData, imageUrl: imageUrl , imagePath: file.path});
-      const {userId , posts} = schedule;
+      const schedule = await this.service.updatePost(userId, postId, { ...updateData, imageUrl: imageUrl , imagePath: file.path});
 
       return res.status(200).json({
         success: true,
         message: "Postagem atualizada com sucesso!",
-        data: posts
+        data: schedule.posts
       });
 
     } catch (error) {
