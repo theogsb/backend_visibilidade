@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "server": "nodemon index.js",
-    "test": "NODE_ENV=test jest",
+    "test": "jest",
     "ci": "echo testando CI"
   },
   "keywords": [],

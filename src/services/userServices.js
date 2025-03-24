@@ -4,7 +4,7 @@ export class UserService {
   
   async getUser(userId) {
     try {
-      const user = UserModel.findById(userId);
+      const user = await UserModel.findById(userId);
       
       if(!user) {
         throw new Error('Usuário não encontrado!');
