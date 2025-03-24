@@ -34,8 +34,8 @@ export class UserService {
         throw new Error("Dados inválidos retornados pela API externa");
       }
   
-      const UserId = data.ngo.id;
-      const user = await UserModel.findOne({ "data.ngo.id": UserId });
+      const userId = data.ngo.id;
+      var user = await UserModel.findOne({ "ngo.id": userId });
 
       if (!user) {
         const newUser = new UserModel({
@@ -51,11 +51,17 @@ export class UserService {
 
         await newSchedule.save();
   
-        return {
-          newUser,
-          newSchedule
-        };
-    }  
+        user = newUser;
+        const schedule = newSchedule;
+        
+        return {user, schedule}
+    }
+    else {
+      const schedule = await ScheduleModel.findOne({ "userId": user._id });
+      return {user, schedule}
+    }
+    
+
     }catch( error ) {
       throw new Error(error.message);
     } 
