@@ -1,10 +1,8 @@
 import { UserService } from '../../src/services/userServices.js';
 import { UserModel, ScheduleModel } from '../../src/models/models.js';
 
-// Mock das models
 jest.mock('../../src/models/models.js');
 
-// Mock da função fetch global
 global.fetch = jest.fn();
 
 describe('UserService', () => {
@@ -22,7 +20,6 @@ describe('UserService', () => {
     ScheduleModel.findOne.mockClear();
   });
 
-  // Testes para o método getUser
   describe('getUser', () => {
     it('deve retornar o usuário quando ele existe no banco de dados', async () => {
       const mockUser = { _id: '123', name: 'John Doe', email: 'john@example.com' };
@@ -55,7 +52,6 @@ describe('UserService', () => {
     });
   });
 
-  // Testes para o método updateUser
   describe('updateUser', () => {
     it('deve atualizar o usuário quando ele existe no banco de dados', async () => {
       const mockUser = { _id: '123', name: 'John Doe', email: 'john@example.com' };
@@ -161,8 +157,7 @@ describe('UserService', () => {
     });
   });
 
-  // Testes para o método createUser
-  describe('createUser', () => {
+    //describe('createUser', () => {
     // it('deve criar um novo usuário e um novo agendamento quando o usuário não existe', async () => {
     //   const apiResponse = {
     //     user: { id: 1, name: 'John Doe' },
@@ -279,4 +274,3 @@ describe('UserService', () => {
       expect(UserModel.findOne).toHaveBeenCalledWith({ 'ngo.id': apiResponse.ngo.id });
     });
   });
-});
