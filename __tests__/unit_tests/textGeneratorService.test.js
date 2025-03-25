@@ -61,7 +61,7 @@ describe("TextGeneratorService", () => {
 
   it("deve lançar um erro se o prompt não for fornecido", async () => {
     await expect(service.generateText()).rejects.toThrow("Campo 'prompt' é obrigatório");
-    expect(fetch).not.toHaveBeenCalled(); // Verifica que fetch não foi chamado
+    expect(fetch).not.toHaveBeenCalled();
   });
 
   it("deve lançar um erro se a API falhar", async () => {
